@@ -1,0 +1,37 @@
+{
+  "name": "pritunl",
+  "version": "1.0.2388.46",
+  "main": "public/electron.js",
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "scripts": {
+    "start": "rescripts start",
+    "build": "rescripts build",
+    "test": "rescripts test",
+    "eject": "react-scripts eject"
+  },
+  "dependencies": {
+    "antd-mobile": "^2.3.1",
+    "axios": "^0.19.2",
+    "inflate-raw": "^1.0.0",
+    "mustache": "4.0.1",
+    "nodejs-base64": "^1.0.3",
+    "react": "^16.8.3",
+    "react-dom": "^16.8.3",
+    "react-scripts": "2.1.5",
+    "request": "2.88.2"
+  },
+  "devDependencies": {
+    "@rescripts/cli": "^0.0.10",
+    "@rescripts/rescript-env": "^0.0.5",
+    "rimraf": "3.0.2",
+    "typescript": "^3.3.3333"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
+}
