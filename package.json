@@ -1,0 +1,44 @@
+{
+  "name": "we-robot",
+  "version": "1.0.1",
+  "description": "",
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "scripts": {
+    "ui": "cd ./ui/vpn && npm run build && rm -rf ../../assets/res/ui/static && cp -a build/* ../../assets/res/ui",
+    "res": "npm run doc && go-bindata -pkg assets -o assets/res.go  -prefix \"res/\" assets/res/...",
+    "doc:server": "swagger serve ./assets/res/ui/swagger/swagger.json",
+    "doc:replace": "sed -i '' 's/127.0.0.1/0.0.0.0/g' ./assets/res/ui/swagger/swagger.json",
+    "doc:gen": "mkdir -p ./assets/res/ui/swagger && swagger generate spec -m -q -o ./assets/res/ui/swagger/swagger.json",
+    "doc": "npm run doc:gen && npm run doc:replace"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@e.coding.net:sanfun/wemall.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "dependencies": {
+
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+
+  }
+}

@@ -1,0 +1,158 @@
+#####
+# bind data generation file
+
+*.sqlite
+*.idea/*
+*.idea
+*.idea/.*
+.DS_Store
+
+bin/
+
+.idea/
+bindata.go
+
+###################### golang 
+# Compiled Object files, Static and Dynamic libs (Shared Objects)
+*.o
+*.a
+*.so
+
+# Folders
+_obj
+_test
+
+# Architecture specific extensions/prefixes
+*.[568vq]
+[568vq].out
+
+*.cgo1.go
+*.cgo2.c
+_cgo_defun.c
+_cgo_gotypes.go
+_cgo_export.*
+
+_testmain.go
+
+*.exe
+*.test
+*.prof
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
+
+# external packages folder
+vendor/
+
+*.DS_Store
+.AppleDouble
+.LSOverride
+
+###################### mac 
+# Icon must end with two \r
+Icon
+
+
+# Thumbnails
+._*
+
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+
+# yii console commands
+/yii_test
+/yii_test.bat
+dist/
+build/
+__pycache__/
+/*.spec
+bindata_gzip.go
+*.db
+*.db-shm
+*.db-wal
+/*.exe
+# phpstorm project files
+.idea
+.environment
+# netbeans project files
+nbproject
+
+# zend studio for eclipse project files
+.buildpath
+.project
+.settings
+
+# windows thumbnail cache
+Thumbs.db
+
+# composer vendor dir
+
+# composer itself is not needed
+composer.phar
+
+# Mac DS_Store Files
+.DS_Store
+
+# phpunit itself is not needed
+
+# local phpunit config
+/phpunit.xml
+
+# vagrant runtime
+/.vagrant
+
+# ignore generated files
+*.log
+*.swp
+.bashrc
+
+configuration.json
+configuration.prod.json
+DESIGN.md
+debug
+node_modules
+npm-debug.log
+sdk
+wemall
+wexin/config/config.js
+
+docker-compose.yml
+console/runtime/
+
+/setting.json
+asset/asset.go
+asset/bindata_gzip.go
+/package-lock.json
+
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# production
+/build
+
+# misc
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

@@ -1,0 +1,9 @@
+.Logs li{
+    text-align: left;
+    margin-bottom: 8px;
+    font-size: 12px;
+    border-bottom: 1px solid #e1e1e1;
+}
+.Logs ul{
+    padding:8px
+}

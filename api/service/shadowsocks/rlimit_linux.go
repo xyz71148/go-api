@@ -1,0 +1,3 @@
+package shadowsocks
+
+//func setrlimit() {}

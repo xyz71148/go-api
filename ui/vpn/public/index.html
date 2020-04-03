@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico"/>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no"/>
+    <script src="https://as.alipayobjects.com/g/component/fastclick/1.0.6/fastclick.js"></script>
+    <script>
+        window.globalObject = {
+            "constant": {},
+            "ss_base_host": location.port === 3000 ? "127.0.0.1:10081" :location.host ,
+            "base_api_url": "http://vpn.jie8.cc:8081/api"
+        };
+    </script>
+
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json"/>
+    <title>App</title>
+</head>
+<body>
+<noscript>You need to enable JavaScript to run this app.</noscript>
+<div id="root"></div>
+</body>
+</html>

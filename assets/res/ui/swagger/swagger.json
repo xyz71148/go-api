@@ -1,0 +1,361 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "云控",
+    "title": "云控",
+    "version": "1.0.1"
+  },
+  "host": "0.0.0.0:10081",
+  "paths": {
+    "/check-port": {
+      "get": {
+        "description": "checkPort",
+        "tags": [
+          "ShadowsocksCheckPort"
+        ],
+        "summary": "checkPort",
+        "operationId": "ShadowsocksCheckPortRequestParams",
+        "parameters": [
+          {
+            "type": "string",
+            "default": "www.google.com",
+            "description": "当前页",
+            "name": "Ip",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "default": "443",
+            "description": "当前页",
+            "name": "Port",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/BaseResponse"
+          },
+          "500": {
+            "$ref": "#/responses/GenericError"
+          },
+          "default": {
+            "$ref": "#/responses/BaseResponse"
+          }
+        }
+      }
+    },
+    "/pac": {
+      "get": {
+        "description": "getPac",
+        "summary": "getPac",
+        "operationId": "ShadowSocks",
+        "responses": {
+          "200": {
+            "$ref": "#/responses/BaseResponse"
+          },
+          "500": {
+            "$ref": "#/responses/GenericError"
+          },
+          "default": {
+            "$ref": "#/responses/BaseResponse"
+          }
+        }
+      }
+    },
+    "/shadowsocks": {
+      "get": {
+        "description": "shadowsocks",
+        "summary": "shadowsocks",
+        "operationId": "ShadowSocks1",
+        "responses": {
+          "200": {
+            "$ref": "#/responses/BaseResponse"
+          },
+          "500": {
+            "$ref": "#/responses/GenericError"
+          },
+          "default": {
+            "$ref": "#/responses/BaseResponse"
+          }
+        }
+      }
+    },
+    "/users": {
+      "get": {
+        "description": "获取 列表",
+        "tags": [
+          "RobotContact"
+        ],
+        "summary": "列表",
+        "operationId": "ContactRows",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "default": 1,
+            "description": "当前页",
+            "name": "PageNo",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "default": 10,
+            "description": "当前页",
+            "name": "PageSize",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "default": "id",
+            "description": "排序字段",
+            "name": "OrderField",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "default": "DESC",
+            "description": "排序类型\n\nDESC ASC",
+            "name": "OrderType",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "过滤参数",
+            "name": "Filter",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/BaseResponse"
+          },
+          "500": {
+            "$ref": "#/responses/GenericError"
+          },
+          "default": {
+            "$ref": "#/responses/BaseResponse"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "BaseEmptyResponseBody": {
+      "type": "object",
+      "properties": {
+        "ErrNo": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "Msg": {
+          "type": "string"
+        }
+      },
+      "x-go-package": "github.com/xyz71148/go-api/api/types"
+    },
+    "BaseResponseBody": {
+      "type": "object",
+      "properties": {
+        "Data": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object"
+          }
+        },
+        "ErrNo": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "Msg": {
+          "type": "string"
+        }
+      },
+      "x-go-package": "github.com/xyz71148/go-api/api/types"
+    },
+    "GenericErrorBody": {
+      "type": "object",
+      "properties": {
+        "ErrNo": {
+          "description": "default 500",
+          "type": "integer",
+          "format": "int64"
+        },
+        "Msg": {
+          "type": "string"
+        }
+      },
+      "x-go-package": "github.com/xyz71148/go-api/api/types"
+    },
+    "RobotContact": {
+      "description": "微信联系人\n一个 微信ID 对应 多个 UserName",
+      "type": "object",
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "CreatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "DelFlag": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "Remark": {
+          "type": "string"
+        },
+        "RemarkPYInitial": {
+          "type": "string"
+        },
+        "RemarkQuanPin": {
+          "type": "string"
+        },
+        "Type": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "UpdatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "UserName": {
+          "type": "string"
+        },
+        "WxId": {
+          "type": "string"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Id"
+        }
+      },
+      "x-go-package": "github.com/xyz71148/go-api/api/models"
+    },
+    "RowResponseBodyContact": {
+      "type": "object",
+      "properties": {
+        "Data": {
+          "$ref": "#/definitions/RowResponseBodyDataContact"
+        },
+        "ErrNo": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "Msg": {
+          "type": "string"
+        }
+      },
+      "x-go-package": "github.com/xyz71148/go-api/api/types"
+    },
+    "RowResponseBodyDataContact": {
+      "type": "object",
+      "properties": {
+        "Row": {
+          "$ref": "#/definitions/RobotContact"
+        }
+      },
+      "x-go-package": "github.com/xyz71148/go-api/api/types"
+    },
+    "RowsResponseBodyContact": {
+      "type": "object",
+      "properties": {
+        "Data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RowsResponseBodyDataContact"
+          }
+        },
+        "ErrNo": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "Msg": {
+          "type": "string"
+        }
+      },
+      "x-go-package": "github.com/xyz71148/go-api/api/types"
+    },
+    "RowsResponseBodyDataContact": {
+      "type": "object",
+      "properties": {
+        "PageNo": {
+          "type": "integer",
+          "format": "int8"
+        },
+        "PageSize": {
+          "type": "integer",
+          "format": "int8"
+        },
+        "Rows": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RobotContact"
+          }
+        },
+        "Total": {
+          "type": "integer",
+          "format": "int8"
+        }
+      },
+      "x-go-package": "github.com/xyz71148/go-api/api/types"
+    },
+    "SaveStructContact": {
+      "type": "object",
+      "required": [
+        "WxId",
+        "FriendWxId",
+        "AliasName",
+        "Status"
+      ],
+      "properties": {
+        "AliasName": {
+          "description": "别名备注",
+          "type": "string"
+        },
+        "FriendWxId": {
+          "description": "联系人微信ID",
+          "type": "string"
+        },
+        "Status": {
+          "description": "状态 1 正常; 0 删除",
+          "type": "boolean",
+          "default": true
+        },
+        "WxId": {
+          "description": "微信ID",
+          "type": "string"
+        }
+      },
+      "x-go-package": "github.com/xyz71148/go-api/api/types"
+    }
+  },
+  "responses": {
+    "BaseEmptyResponse": {
+      "schema": {
+        "$ref": "#/definitions/BaseEmptyResponseBody"
+      }
+    },
+    "BaseResponse": {
+      "schema": {
+        "$ref": "#/definitions/BaseResponseBody"
+      }
+    },
+    "ContactRowResponse": {
+      "schema": {
+        "$ref": "#/definitions/RowResponseBodyContact"
+      }
+    },
+    "ContactRowsResponse": {
+      "schema": {
+        "$ref": "#/definitions/RowsResponseBodyContact"
+      }
+    },
+    "GenericError": {
+      "schema": {
+        "$ref": "#/definitions/GenericErrorBody"
+      }
+    }
+  }
+}
