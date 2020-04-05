@@ -23,8 +23,8 @@ func serveReverseProxy(res http.ResponseWriter, req *http.Request) {
 func Run(host string,port string,targetUrl string) {
 	targetUrl = targetUrl
 	addr := fmt.Sprintf("%s:%s",host,port)
-	fmt.Println("run reverse proxy at : %s",addr)
-	http.HandleFunc("/api", serveReverseProxy)
+	fmt.Printf("run reverse proxy at : %s",addr)
+	http.HandleFunc("/", serveReverseProxy)
 	if err := http.ListenAndServe(addr, nil); err != nil {
 		panic(err)
 	}
