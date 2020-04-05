@@ -12,8 +12,10 @@ import (
 	"fmt"
 	"github.com/xyz71148/go-api/api/controllers"
 	"github.com/xyz71148/go-api/api/service/shadowsocks"
+	"github.com/xyz71148/go-api/api/utils"
 	"log"
 	"os"
+	"path/filepath"
 
 	"github.com/joho/godotenv"
 )
@@ -28,19 +30,30 @@ func init() {
 
 func Run() {
 
-	var err error
-	err = godotenv.Load()
-	if err != nil {
-		log.Fatalf("Error getting env, %v", err)
-	} else {
-		fmt.Println("We are getting the env values")
-	}
+	dir, _ := filepath.Abs(filepath.Dir(os.Args[0]))  //返回绝对路径  filepath.Dir(os.Args[0])去除最后一个元素的路径
 
-	server.Initialize(os.Getenv("DB_DRIVER"), os.Getenv("DB_USER"), os.Getenv("DB_PASSWORD"), os.Getenv("DB_PORT"), os.Getenv("DB_HOST"), os.Getenv("DB_NAME"))
+	if utils.IsPathExist(fmt.Sprintf("%s/.env",dir)){
+		var err error
+		err = godotenv.Load()
+		if err != nil {
+			log.Printf("Error getting env, %v", err)
+		} else {
+			log.Println("We are getting the env values")
+		}
+	}else{
+		log.Println(".env not exists")
+	}
+	server.Initialize(
+		utils.GetEnv("DB_DRIVER","sqlite3"),
+		utils.GetEnv("DB_USER",""),
+		utils.GetEnv("DB_PASSWORD",""),
+		utils.GetEnv("DB_PORT",""),
+		utils.GetEnv("DB_HOST",""),
+		utils.GetEnv("DB_NAME","db.sqlite") )
 
 	//seed.Load(server.DB)
 
-	go server.Run(":"+os.Getenv("httpManagePort"))
+	go server.Run(":"+utils.GetEnv("httpManagePort",shadowsocks.GetConfig("httpManagePort")))
 	shadowsocks.BootSysTray()
 
 }

@@ -77,7 +77,7 @@ func onTrayReady() {
 
 	systray.SetIcon(assets.GetRes("assets/res/icon22x22.ico"))
 	systray.SetTitle("")
-	systray.SetTooltip("铜蛇")
+	systray.SetTooltip("yh")
 
 	go StartSS()
 	go StartHttpProxy()

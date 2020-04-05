@@ -179,7 +179,7 @@ func getRequest(conn net.Conn) (rawaddr []byte, host string, err error) {
 
 	rawaddr = buf[idType:reqLen]
 
-	if os.Getenv("debug") == "true" {
+	if GetConfig("debug") == "true" {
 		switch buf[idType] {
 		case typeIPv4:
 			host = net.IP(buf[idIP0 : idIP0+net.IPv4len]).String()
@@ -253,7 +253,7 @@ func createServerConn(rawaddr []byte, addr string) (remote *ss.Conn, err error) 
 }
 
 func handleConnection(conn net.Conn, tl *TrafficListener) {
-	if os.Getenv("debug") == "true" {
+	if GetConfig("debug") == "true" {
 		go LogMsg(fmt.Sprintf("socks connect from %s\n", conn.RemoteAddr().String()))
 	}
 	closed := false
@@ -305,12 +305,12 @@ func handleConnection(conn net.Conn, tl *TrafficListener) {
 }
 
 func StartSS() {
-	ln, err := net.Listen("tcp", os.Getenv("SocksProxy"))
+	ln, err := net.Listen("tcp", GetConfig("SocksProxy"))
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	go LogMsg(fmt.Sprintf("starting local socks5 server at %v ...\n", os.Getenv("SocksProxy")))
+	go LogMsg(fmt.Sprintf("starting local socks5 server at %v ...\n", GetConfig("SocksProxy")))
 
 	for {
 		conn, err := ln.Accept()
@@ -351,7 +351,7 @@ func SetTunnels(tunnels []*SSTunnel) {
 }
 
 func StartHttpProxy() {
-	parentProxy, err := url.Parse(fmt.Sprintf("socks5://%s", os.Getenv("SocksProxy")))
+	parentProxy, err := url.Parse(fmt.Sprintf("socks5://%s", GetConfig("SocksProxy")))
 
 	if err != nil {
 		fatalf("Failed to parse proxy URL: %v\n", err)
@@ -363,15 +363,15 @@ func StartHttpProxy() {
 	}
 	server := goproxy.NewProxyHttpServer()
 	server.Tr = &http.Transport{Dial: tbDialer.Dial}
-	log.Printf("start http proxy at: %s", os.Getenv("HttpProxy"))
-	err = http.ListenAndServe(os.Getenv("HttpProxy"), server)
+	log.Printf("start http proxy at: %s", GetConfig("HttpProxy"))
+	err = http.ListenAndServe(GetConfig("HttpProxy"), server)
 	if err != nil {
 		fatalf("Failed to start http proxy: %v\n", err)
 	}
 }
 
 func MakeProxyClient() *http.Client {
-	proxyUrl, _ := url.Parse(fmt.Sprintf("http://%s", os.Getenv("HttpProxy")))
+	proxyUrl, _ := url.Parse(fmt.Sprintf("http://%s", GetConfig("HttpProxy")))
 	return &http.Client{Transport: &http.Transport{Proxy: http.ProxyURL(proxyUrl)}, Timeout: 10 * time.Second}
 }
 
