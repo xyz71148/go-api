@@ -8,7 +8,7 @@ LABEL maintainer="Steven Victor <chikodi543@gmail.com>"
 
 # Install git.
 # Git is required for fetching the dependencies.
-RUN apk update && apk add --no-cache git
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories && apk update && apk add --no-cache git
 
 # Set the current working directory inside the container 
 WORKDIR /app
