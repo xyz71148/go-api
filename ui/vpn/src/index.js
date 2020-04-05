@@ -4,8 +4,8 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import axios from "axios";
-import './lib/weui';
-import './lib/react-weui/build/packages/react-weui.css';
+import 'weui';
+import 'react-weui/build/packages/react-weui.css';
 
 
 axios.interceptors.request.use(request => {
