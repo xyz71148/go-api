@@ -3,9 +3,9 @@ package auth
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/xyz71148/go-api/api/utils"
 	"log"
 	"net/http"
-	"os"
 	"strconv"
 	"strings"
 	"time"
@@ -19,7 +19,7 @@ func CreateToken(user_id uint32) (string, error) {
 	claims["user_id"] = user_id
 	claims["exp"] = time.Now().Add(time.Hour * 1).Unix() //Token expires after 1 hour
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	return token.SignedString([]byte(os.Getenv("API_SECRET")))
+	return token.SignedString([]byte(utils.GetEnv("API_SECRET","")))
 
 }
 
@@ -29,7 +29,7 @@ func TokenValid(r *http.Request) error {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])
 		}
-		return []byte(os.Getenv("API_SECRET")), nil
+		return []byte(utils.GetEnv("API_SECRET","")), nil
 	})
 	if err != nil {
 		return err
@@ -60,7 +60,7 @@ func ExtractTokenID(r *http.Request) (uint32, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])
 		}
-		return []byte(os.Getenv("API_SECRET")), nil
+		return []byte(utils.GetEnv("API_SECRET","")), nil
 	})
 	if err != nil {
 		return 0, err

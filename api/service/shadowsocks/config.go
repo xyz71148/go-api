@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/xyz71148/go-api/api/utils"
 	"github.com/xyz71148/go-api/assets"
 	"io/ioutil"
 	"log"
@@ -25,13 +26,40 @@ import (
 var storageFolder string
 var cacheFolder string
 
+func GetConfig(key string) string {
+	val := utils.GetEnv(key,"")
+	if strings.Count(val,"") == 1 {
+		switch key {
+		case "Logo":
+			return "logo.png"
+		case "AppName":
+			return "youhu"
+		case "ssPort":
+			return "1271"
+		case "httpProxyPort":
+			return "1272"
+		case "httpManagePort":
+			return "10082"
+		case "HttpProxy":
+			return "0.0.0.0:1272"
+		case "SocksProxy":
+			return "127.0.0.1:1271"
+		case "debug":
+			return "false"
+
+		}
+		return ""
+		
+		
+	}else{
+		return val
+	}
+}
 func init() {
 	if runtime.GOOS == "darwin" {
-		//storageFolder = os.Getenv("HOME") + "/Library/Application Support"
-		//cacheFolder = os.Getenv("HOME") + "/Library/Caches"
+		storageFolder = os.Getenv("HOME") + "/Library/Application Support"
+		cacheFolder = os.Getenv("HOME") + "/Library/Caches"
 
-		storageFolder = "/tmp"
-		cacheFolder = "/tmp"
 	} else if runtime.GOOS == "windows" {
 		storageFolder = os.Getenv("APPDATA")
 		cacheFolder = os.Getenv("LOCALAPPDATA")
@@ -51,8 +79,8 @@ func init() {
 	if !isPathExist(s) {
 		os.Mkdir(s, 0755)
 	}
-	if !isPathExist(GetStorageFile(os.Getenv("Logo"))) {
-		err := ioutil.WriteFile(GetStorageFile(os.Getenv("Logo")), assets.GetRes(os.Getenv("Logo")), 0644)
+	if !isPathExist(GetStorageFile(GetConfig("Logo"))) {
+		err := ioutil.WriteFile(GetStorageFile(GetConfig("Logo")), assets.GetRes(GetConfig("Logo")), 0644)
 		if err != nil {
 			panic(err)
 		}
@@ -266,7 +294,7 @@ func SaveConfig(config *Config) error {
 
 
 func GetStorageDir() string {
-	return fmt.Sprintf("%s/%s", storageFolder, os.Getenv("AppName"))
+	return fmt.Sprintf("%s/%s", storageFolder, GetConfig("AppName"))
 }
 
 func GetStorageFile(f string) string {
@@ -290,7 +318,7 @@ func SetPac() error {
 	err := pac.EnsureHelperToolPresent(
 		GetStorageFile("pac-set"),
 		"铜蛇请求授权，以更改系统代理设置",
-		GetStorageFile(os.Getenv("Logo")),
+		GetStorageFile(GetConfig("Logo")),
 	)
 	if err != nil {
 		log.Printf("Could not set pac with err: %v", err)
@@ -311,14 +339,14 @@ func UnsetPac() {
 
 func GetSocksProxy() string {
 	//TODO add sharing feature
-	return fmt.Sprintf("%s:%s;", "127.0.0.1", os.Getenv("ssPort"))
+	return fmt.Sprintf("%s:%s;", "127.0.0.1", GetConfig("ssPort"))
 }
 
 func GetHttpProxy() string {
 	//TODO add sharing feature
-	return fmt.Sprintf("%s:%s;", "127.0.0.1", os.Getenv("httpProxyPort"))
+	return fmt.Sprintf("%s:%s;", "127.0.0.1", GetConfig("httpProxyPort"))
 }
 
 func GetManagementAddr() string {
-	return fmt.Sprintf("127.0.0.1:%s", os.Getenv("httpManagePort"))
+	return fmt.Sprintf("127.0.0.1:%s", GetConfig("httpManagePort"))
 }
