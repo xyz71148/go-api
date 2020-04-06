@@ -7,7 +7,10 @@ import {
 const initialState = {
   items: [],
   loading: false,
-  error: null
+  error: null,
+  showVipLines:false,
+  selectedVipType:null,
+  showVipLinesActionSheet:false
 };
 
 export default function defaultReducer(
@@ -15,6 +18,12 @@ export default function defaultReducer(
   action
 ) {
   switch (action.type) {
+    case "instance/setState":
+      return {
+        ...state,
+        ...action.payload
+      };
+
     case FETCH_BEGIN:
       return {
         ...state,

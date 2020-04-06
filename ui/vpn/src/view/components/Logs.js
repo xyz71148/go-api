@@ -10,23 +10,23 @@ class Logs extends Component {
         logs:[]
     };
     componentDidMount() {
-        const {ss_base_host} = window.globalObject;
-        window.web_sock = new WebSocket(`ws://${ss_base_host}/ws`);
-
-        var update = () => {
-            window.web_sock.onmessage = (event) =>{
-                //console.log(event.data)
-                this.setState({
-                    logs:[event.data,...this.state.logs]
-                })
-            }
-        };
-        window.setTimeout(update);
+        // const {ss_base_host} = window.globalObject;
+        // window.web_sock = new WebSocket(`ws://${ss_base_host}/ws`);
+        //
+        // var update = () => {
+        //     window.web_sock.onmessage = (event) =>{
+        //         //console.log(event.data)
+        //         this.setState({
+        //             logs:[event.data,...this.state.logs]
+        //         })
+        //     }
+        // };
+        // window.setTimeout(update);
     }
 
     componentWillUnmount() {
-        window.web_sock && window.web_sock.close();
-        window.web_sock = undefined
+        // window.web_sock && window.web_sock.close();
+        // window.web_sock = undefined
     }
 
     render() {

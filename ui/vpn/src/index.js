@@ -4,23 +4,20 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import axios from "axios";
-import 'weui';
-import 'react-weui/build/packages/react-weui.css';
+import './lib/weui/weui.css';
 import {applyMiddleware, createStore} from "redux";
 import rootReducer from "./store/rootReducer";
 import thunk from "redux-thunk";
 import {Provider} from "react-redux";
 
-
 axios.interceptors.request.use(request => {
     const {url} = request;
-    //window.base_api_url = "http://localhost:8080/api";
-    const {base_api_url} = window.globalObject;
-
-    if ( url && url.indexOf("http") === -1) {
+    const base_api_url = "/api";
+    if ( url && url.indexOf("shadowsocks") > 0) {
+         request["url"] = `${url}`
+    }else{
         request["url"] = `${base_api_url}${url}`
     }
-    console.log(axios.defaults.headers.common.Authorization)
     if(axios.defaults.headers.common.Authorization){
         request.headers.common["Authorization"] = axios.defaults.headers.common.Authorization
     }
