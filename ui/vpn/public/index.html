@@ -9,8 +9,8 @@
     <script>
         window.globalObject = {
             "constant": {},
-            "ss_base_host": location.port === 3000 ? "127.0.0.1:10081" :location.host ,
-            "base_api_url": "http://vpn.jie8.cc:8081/api"
+            "ss_base_host": location.port === "3000" ? "127.0.0.1:10080" :location.host ,
+            "base_api_url":  location.port === "3000" ? "http://127.0.0.1:10080/api" :"/api"
         };
     </script>
 

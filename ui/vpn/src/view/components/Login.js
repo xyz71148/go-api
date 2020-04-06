@@ -21,7 +21,7 @@ function validateEmail(email) {
 }
 class Login extends Component {
     state = {
-        email: '',
+        email: 'xyz71148@gmail.com',
         code:"",
         showCaptchaInput:false,
         showToast: false,
@@ -61,14 +61,15 @@ class Login extends Component {
                         showCaptchaInput:true,
                         sendTxt:"60"
                     })
-                    setInterval(()=>{
+                    window.___t_id = setInterval(()=>{
                         let {sendTxt} = this.state;
-                        sendTxt = parseInt(sendTxt) -1;
+                        sendTxt = parseInt(sendTxt) - 1;
                         if(sendTxt <= 0){
                             this.setState({
                                 sendTxt:"Send",
                                 sendBtnDisabled:false
                             })
+                            clearInterval(window.___t_id)
                         }else{
                             this.setState({
                                 sendTxt

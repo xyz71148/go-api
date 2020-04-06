@@ -26,18 +26,26 @@
 .star_wrap {
     background-color: #2f64ff;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     flex: 1;
     align-items: center;
     flex-direction: column;
+
 }
 
 .star_wrap .star {
+    cursor: pointer;
+    margin-top:88px;
     display: block;
     transform: translate(40px, 0);
     height: 220px;
     width: 260px;
     background-repeat: no-repeat;
+}
+.star img{
+    border: 12px solid white;
+    border-radius: 12px;
+    display: none;
 }
 
 .star_wrap .star_on_2 {

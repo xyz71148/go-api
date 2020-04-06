@@ -2,8 +2,8 @@ import React, {Component} from 'react';
 import axios from "axios";
 import {Toast, Toptips} from "react-weui";
 import {connect} from "react-redux";
-import { fetchInstances } from "../../store/instanceActions";
 window.connect_status = "disconnected";
+
 class Star extends Component {
     state = {
         showToast: false,
@@ -30,9 +30,8 @@ class Star extends Component {
     }
 
     componentDidMount() {
-        const access_token = localStorage.getItem("access_token");
-        if (!access_token) return;
-        this.props.dispatch(fetchInstances);
+        console.log("checkShadowSocksStatus")
+        this.checkShadowSocksStatus()
     }
 
     componentWillUnmount() {
@@ -40,7 +39,8 @@ class Star extends Component {
     }
 
     checkShadowSocksStatus() {
-
+        const access_token = localStorage.getItem("access_token");
+        if (!access_token) return;
         const {ss_base_host} = window.globalObject;
         //console.log("checkShadowSocksStatus")
         axios.get(`http://${ss_base_host}/shadowsocks`).then(({data}) => {
@@ -269,16 +269,14 @@ class Star extends Component {
 
                 </div>
                 <div onClick={() => {
-                    // const {connect_status} = window;
-                    // if (connect_status === 'disconnected') {
-                    //     this.onOpenConn()
-                    // } else {
-                    //     this.onCloseConn()
-                    // }
-                    this.props.toggle("showActionSheet")
-                }} className={"star star_off"}>
-                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=1" alt=""/>
-                </div>
+                    const {connect_status} = window;
+                    if (connect_status === 'disconnected') {
+                        this.onOpenConn()
+                    } else {
+                        this.onCloseConn()
+                    }
+
+                }} className={"star " + star_css}/>
                 <Toast icon="loading" show={this.state.showToast}>Loading</Toast>
                 <Toptips type={this.state.tips.type} show={this.state.tips.visible}>{this.state.tips.msg} </Toptips>
             </div>
@@ -286,10 +284,5 @@ class Star extends Component {
     }
 }
 
-const mapStateToProps = state => ({
-    instances: state.instance.items,
-    loading: state.instance.loading,
-    error: state.instance.error
-});
 
-export default connect(mapStateToProps)(Star);
+export default Star;

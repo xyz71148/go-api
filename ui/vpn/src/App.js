@@ -6,7 +6,7 @@ import {Toast} from 'react-weui';
 
 class App extends Component {
     state = {
-        logging:true
+        logging:false
     }
 
     componentDidMount() {
@@ -14,12 +14,12 @@ class App extends Component {
         if (access_token) {
             axios.defaults.headers.common.Authorization = access_token;
         }
-        axios.get("/constant").then(({data})=>{
-            window.globalObject.constant = data
-            this.setState({
-                logging:false
-            })
-        })
+        // axios.get("/constant").then(({data})=>{
+        //     window.globalObject.constant = data
+        //     this.setState({
+        //         logging:false
+        //     })
+        // })
 
     }
 
