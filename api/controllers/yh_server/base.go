@@ -1,74 +1,28 @@
-package controllers
+package yh_server
 
 import (
 	"fmt"
 	"github.com/gorilla/handlers"
-	"github.com/xyz71148/go-api/api/models"
-	"github.com/xyz71148/go-api/api/service/shadowsocks"
 	"log"
 	"net/http"
 
 	"github.com/gorilla/mux"
-	"github.com/jinzhu/gorm"
-
-	_ "github.com/jinzhu/gorm/dialects/mysql"    //mysql database driver
-	_ "github.com/jinzhu/gorm/dialects/postgres" //postgres database driver
-	_ "github.com/jinzhu/gorm/dialects/sqlite"   // sqlite database driver
 )
 
 type Server struct {
-	DB     *gorm.DB
 	Router *mux.Router
 }
 
-func (server *Server) Initialize(Dbdriver, DbUser, DbPassword, DbPort, DbHost, DbName string) {
-
-	var err error
-
-	if Dbdriver == "mysql" {
-		DBURL := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local", DbUser, DbPassword, DbHost, DbPort, DbName)
-		server.DB, err = gorm.Open(Dbdriver, DBURL)
-		if err != nil {
-			fmt.Printf("Cannot connect to %s database", Dbdriver)
-			log.Fatal("This is the error:", err)
-		} else {
-			fmt.Printf("We are connected to the %s database", Dbdriver)
-		}
-	}
-	if Dbdriver == "postgres" {
-		DBURL := fmt.Sprintf("host=%s port=%s user=%s dbname=%s sslmode=disable password=%s", DbHost, DbPort, DbUser, DbName, DbPassword)
-		server.DB, err = gorm.Open(Dbdriver, DBURL)
-		if err != nil {
-			fmt.Printf("Cannot connect to %s database", Dbdriver)
-			log.Fatal("This is the error:", err)
-		} else {
-			fmt.Printf("We are connected to the %s database", Dbdriver)
-		}
-	}
-	if Dbdriver == "sqlite3" {
-		//DBURL := fmt.Sprintf("host=%s port=%s user=%s dbname=%s sslmode=disable password=%s", DbHost, DbPort, DbUser, DbName, DbPassword)
-		server.DB, err = gorm.Open(Dbdriver, DbName)
-		if err != nil {
-			fmt.Printf("Cannot connect to %s database\n", Dbdriver)
-			log.Fatal("This is the error:", err)
-		} else {
-			fmt.Printf("We are connected to the %s database\n", Dbdriver)
-		}
-		server.DB.Exec("PRAGMA foreign_keys = ON")
-	}
-
-	server.DB.Debug().AutoMigrate(&models.User{}, &models.Post{}) //database migration
-
+func (server *Server) Initialize() {
 	server.Router = mux.NewRouter()
-
 	server.initializeRoutes()
 }
 
 func (server *Server) Run(addr string) {
 	fmt.Println("Listening to port ",addr)
-	go shadowsocks.BroadcastClients()
 	log.Fatal(http.ListenAndServe(addr, handlers.CORS(
 		handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"}),
 		handlers.AllowedMethods([]string{"GET", "POST", "PUT", "HEAD", "DELETE", "OPTIONS"}),
-		handlers.AllowedOrigins([]string{"*"}))(server.Router)))
+		handlers.AllowedOrigins([]string{"*"}),
+		)(server.Router)))
 }

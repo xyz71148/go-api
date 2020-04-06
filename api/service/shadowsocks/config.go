@@ -39,7 +39,7 @@ func GetConfig(key string) string {
 		case "httpProxyPort":
 			return "1272"
 		case "httpManagePort":
-			return "10082"
+			return "8080"
 		case "HttpProxy":
 			return "0.0.0.0:1272"
 		case "SocksProxy":

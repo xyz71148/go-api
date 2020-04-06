@@ -1,16 +1,9 @@
-// Package classification 云控
-//
-// 云控
-//
-//      Version: 1.0.1
-//      Host: 127.0.0.1:10081
-//
-// swagger:meta
 package api
 
 import (
 	"fmt"
 	"github.com/xyz71148/go-api/api/controllers"
+	revers_proxy "github.com/xyz71148/go-api/api/service/revers-proxy"
 	"github.com/xyz71148/go-api/api/service/shadowsocks"
 	"github.com/xyz71148/go-api/api/utils"
 	"log"
@@ -28,7 +21,7 @@ func init() {
 	}
 }
 
-func Run() {
+func RunReversProxy() {
 
 	dir, _ := filepath.Abs(filepath.Dir(os.Args[0]))  //返回绝对路径  filepath.Dir(os.Args[0])去除最后一个元素的路径
 
@@ -54,6 +47,7 @@ func Run() {
 	//seed.Load(server.DB)
 
 	go server.Run(":"+utils.GetEnv("httpManagePort",shadowsocks.GetConfig("httpManagePort")))
-	shadowsocks.BootSysTray()
+
+	revers_proxy.Run("0.0.0.0","8088","http://vpn.jie8.cc:8080")
 
 }

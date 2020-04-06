@@ -7,6 +7,6 @@ import (
 
 
 func TestM(t *testing.T) {
-	revers_proxy.Run("0.0.0.0","8080","http://vpn.jie8.cc:8080")
+	revers_proxy.Run("0.0.0.0","8088","http://vpn.jie8.cc:8080")
 	t.Log("pass")
 }
