@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import axios from 'axios'
 import {connect} from "react-redux";
-import {ActionSheet, HalfScreenDialog, Toast} from './lib/react-weui/index'
+import {ActionSheet, HalfScreenDialog} from './lib/react-weui/index'
 import {getZoneTree,get_access_token} from "./lib/utils"
 import './App.css';
 import Home from './view/Home'
@@ -40,7 +40,7 @@ class App extends Component {
     }
 
     render() {
-        const {toastState, loading,actionSheetState, halfScreenDialogState} = this.props;
+        const {actionSheetState, halfScreenDialogState} = this.props;
         if(this.state.loading) return null;
         return (
             <div className="App">

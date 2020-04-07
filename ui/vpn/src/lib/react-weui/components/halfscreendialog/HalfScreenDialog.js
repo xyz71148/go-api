@@ -35,7 +35,7 @@ class Popup extends Component {
 
 
     render() {
-        const {className, height, children, title, show, onClose, enableMask, ...others} = this.props;
+        const {className, height, children, title, show, onClose, enableMask,right, ...others} = this.props;
         const cls = classNames('weui-half-screen-dialog', {
             'weui-half-screen-dialog_show': show
         }, className);
@@ -50,6 +50,9 @@ class Popup extends Component {
                                 <div className="weui-half-screen-dialog__hd__side">
                                     <button onClick={onClose} className="weui-icon-btn">关闭<i
                                         className="weui-icon-close-thin"/></button>
+                                </div>
+                                <div style={{right:26,position:"absolute",top:14,fontSize:24}}>
+                                    {right}
                                 </div>
                                 {
                                     title &&

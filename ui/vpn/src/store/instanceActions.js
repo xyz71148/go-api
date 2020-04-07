@@ -25,6 +25,7 @@ export function createInstance(zone, callBack) {
 
 export function removeInstance(instance_id, callback) {
     return dispatch => {
+        clear_time_id()
         const loading = window.weui.loading("删除中...")
         return axios.delete(`/compute/instance/${instance_id}`, null)
             .then(({data}) => {
@@ -43,12 +44,12 @@ export function removeInstance(instance_id, callback) {
     };
 }
 
-
 export function getInstance(instance_id) {
+    console.log("getInstance", instance_id)
     return dispatch => {
         const loading = window.weui.loading("加载中...")
         return axios.get(`/compute/instance/${instance_id}`, {
-            timeout:25000
+            timeout: 25000
         })
             .then(({data}) => {
 
@@ -58,20 +59,55 @@ export function getInstance(instance_id) {
                         item: data.body
                     }
                 })
-                if(data.body.ip){
+
+                console.log("res", instance_id, data.body.ip, data.body.port_status)
+                if (data.body.ip) {
                     loading.hide()
-                }else{
-                    setTimeout(()=>{{
+                    dispatch(fetchInstances())
+                } else {
+                    setTimeout(() => {
                         dispatch(getInstance(instance_id))
-                    }},1400)
+                    }, 1400)
                 }
             })
             .catch(error => {
-                setTimeout(()=>{{
+                setTimeout(() => {
                     dispatch(getInstance(instance_id))
-                }},1400)
+                }, 1400)
             });
     };
+}
+
+export function clear_time_id() {
+    window.__time_id_fetch_instance && clearInterval(window.__time_id_fetch_instance)
+}
+window.globalObject.delays = {}
+export function fetchInstancePortStatus(dispatch,instances) {
+    instances.map(({ip,id}) => {
+        if (ip) {
+            const start_time = +(new Date())
+            axios.get(`http://${ip}`, {timeout: 1000}).then(({data}) => {
+                const delay1 =  data[0] * 1000 - start_time
+                window.globalObject.delays[id] = delay1
+                dispatch({
+                    type:"instance/setState",
+                    payload:{
+                        timestamp:new Date()
+                    }
+                })
+            }).catch((error) => {
+                dispatch({
+                    type:"instance/setState",
+                    payload:{
+                        timestamp:new Date()
+                    }
+                })
+                console.log(error)
+                window.globalObject.delays[id] = 0
+            })
+        }
+        return id
+    })
 }
 
 export function fetchInstances() {
@@ -85,6 +121,11 @@ export function fetchInstances() {
                         items: data.body
                     }
                 });
+                clear_time_id()
+                fetchInstancePortStatus(dispatch,data.body)
+                window.__time_id_fetch_instance = setInterval(() => {
+                    fetchInstancePortStatus(dispatch,data.body);
+                }, 3000)
                 loading.hide()
             })
             .catch(error => {

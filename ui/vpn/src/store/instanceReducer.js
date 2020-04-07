@@ -6,7 +6,8 @@ const initialState = {
   error: null,
   showVipLines:false,
   selectedVipType:null,
-  showVipLinesActionSheet:false
+  showVipLinesActionSheet:false,
+  timestamp:null
 };
 
 export default function defaultReducer(

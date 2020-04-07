@@ -6,6 +6,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: var(--weui-BG-0);
 }
 
 code {
@@ -15,7 +16,9 @@ code {
 .hide{
   display: none;
 }
-
+.weui-half-screen-dialog{
+  background-color: var(--weui-BG-1);
+}
 .weui-custom .weui-mask{
   z-index: 11000 !important;
 }

@@ -2,18 +2,28 @@
   text-align: center;
   overflow: hidden;
   user-select: none;
-  background: white;
+  background-color: var(--weui-BG-1);
   height: 100vh;
 }
 
 #root {
   position: relative;
+
 }
 @media only screen and (min-width: 768px) {
   /* For desktop: */
   #root {
     width:450px;
     margin:0 auto
+  }
+  .weui-half-screen-dialog {
+    width:400px;
+    margin:0 auto
+  }
+  .weui-actionsheet {
+    width:450px !important;
+    left:50%!important;
+    margin-left: -225px;
   }
 }
 
