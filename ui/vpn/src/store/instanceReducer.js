@@ -1,11 +1,7 @@
-import {
-  FETCH_BEGIN,
-  FETCH_SUCCESS,
-  FETCH_FAILURE
-} from "./instanceActions";
-
+export const namespace = "instance";
 const initialState = {
   items: [],
+  item:null,
   loading: false,
   error: null,
   showVipLines:false,
@@ -23,29 +19,6 @@ export default function defaultReducer(
         ...state,
         ...action.payload
       };
-
-    case FETCH_BEGIN:
-      return {
-        ...state,
-        loading: true,
-        error: null
-      };
-
-    case FETCH_SUCCESS:
-      return {
-        ...state,
-        loading: false,
-        items: action.payload.items
-      };
-
-    case FETCH_FAILURE:
-      return {
-        ...state,
-        loading: false,
-        error: action.payload.error,
-        items: []
-      };
-
     default:
       return state;
   }

@@ -1,3 +1,3 @@
-import HalfScreenDialog from './popup';
+import HalfScreenDialog from './HalfScreenDialog';
 
 export default HalfScreenDialog

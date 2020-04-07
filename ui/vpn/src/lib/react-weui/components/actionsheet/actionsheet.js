@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from '../../utils/classnames';
 import BaseComponent from '../../utils/BaseComponent';
 import Mask from '../mask';
-import './actionsheet.less';
+import './style.css';
 
 /**
  * Used to display a collection of actions that contain a set of interactivity, including descriptions, links, and so on. Popup from the bottom, generally used to respond to user clicks on the page.
@@ -79,11 +79,11 @@ class ActionSheet extends Component {
     }
 
     handleMaskClick(e) {
-        if (this.props.onRequestClose) this.props.onRequestClose(e);
+        if (this.props.onClose) this.props.onClose(e);
     }
 
     render() {
-        const {show, type, onRequestClose, menus, actions, ...others} = this.props;
+        const {show, type, onClose, menus, actions, ...others} = this.props;
         const cls = classNames({
             'weui-actionsheet': true,
             'weui-actionsheet_toggle': show
@@ -92,11 +92,12 @@ class ActionSheet extends Component {
         let styleType = type ? type : 'ios';
 
         return (
+            show ?
             <BaseComponent>
                 <div
                     className={styleType === 'android' ? 'weui-skin_android' : ''}
                 >
-                    <Mask style={{display: show ? 'block' : 'none'}} onClick={this.handleMaskClick}/>
+                    <Mask className={"weui-animate-fade-in"} style={{zIndex:6000-1}} onClick={this.handleMaskClick}/>
                     <div className={cls} {...others} >
                         <div className="weui-actionsheet__menu">
                             {this.renderMenuItem()}
@@ -106,7 +107,7 @@ class ActionSheet extends Component {
                         </div>
                     </div>
                 </div>
-            </BaseComponent>
+            </BaseComponent>:null
         );
     }
 };

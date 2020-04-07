@@ -9,6 +9,7 @@ class BaseComponent extends React.Component {
 	constructor(props) {
 		super(props);
 		this.el = document.createElement('div');
+		if(props.className) this.el.className = props.className
 	}
 
 	componentDidMount() {

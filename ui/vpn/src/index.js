@@ -10,6 +10,8 @@ import rootReducer from "./store/rootReducer";
 import thunk from "redux-thunk";
 import {Provider} from "react-redux";
 
+const instance = axios.create();
+axios.defaults.timeout = 15000;
 axios.interceptors.request.use(request => {
     const {url} = request;
     const base_api_url = "/api";
@@ -17,9 +19,6 @@ axios.interceptors.request.use(request => {
          request["url"] = `${url}`
     }else{
         request["url"] = `${base_api_url}${url}`
-    }
-    if(axios.defaults.headers.common.Authorization){
-        request.headers.common["Authorization"] = axios.defaults.headers.common.Authorization
     }
 
     return request
@@ -35,10 +34,12 @@ axios.interceptors.response.use((response) => {
 
     console.error("response",error.message);
     if(error.message.indexOf("401") > 0 || (error.response && error.response.status === 401)){
+        window.weui.alert("请先登陆")
         localStorage.removeItem("access_token");
-        window.location.reload()
+        //window.location.reload()
         return Promise.reject(error);
     }else{
+        window.weui.topTips(error.message)
         return Promise.reject(error);
     }
 });

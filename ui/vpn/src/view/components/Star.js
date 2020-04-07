@@ -1,21 +1,36 @@
 import React, {Component} from 'react';
 import {Cell, CellBody, CellFooter, CellHeader, Cells} from "react-weui";
 import {connect} from "react-redux";
-import {HalfScreenDialog} from '../../lib/react-weui/index'
-
-window.connect_status = "disconnected";
+import VipLines from './VipLines'
+import Login from './Login'
+import {go_login, is_logged} from "../../lib/utils";
 
 class Star extends Component {
     state = {};
-
-
     onSelectCell(selectedVipType) {
+        if(selectedVipType === 'vip' && !is_logged()){
+            return window.weui.alert("请先登陆",()=>{
+                go_login(this,{
+                    children: (<Login/>)
+                })
+            })
+        }
+        this.props.dispatch({
+            type:"instance/setState",
+            payload:{
+                selectedVipType
+            }
+        });
         this.props.dispatch({
             type: "app/setState",
             payload: {
                 halfScreenDialogState: {
                     show: true,
-                    onRequestClose:()=>{
+                    height:"95vh",
+                    children:(
+                        <VipLines />
+                    ),
+                    onClose:()=>{
                         this.props.dispatch({
                             type: "app/setState",
                             payload: {
@@ -35,9 +50,7 @@ class Star extends Component {
         return (
             <div className={""}>
                 <div className="star_wrap">
-                    <div onClick={() => {
-
-                    }} className={"star star_off"}>
+                    <div onClick={() => {}} className={"star star_off"}>
                     </div>
                 </div>
 
@@ -63,9 +76,6 @@ class Star extends Component {
                         })}
                     </Cells>
                 </div>
-                <HalfScreenDialog {...halfScreenDialogState}>
-                    <div style={{height:"100vh"}}>ww</div>
-                </HalfScreenDialog>
             </div>
         )
     }

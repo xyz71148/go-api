@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from '../../utils/classnames';
-import BaseComponent from '../../utils/BaseComponent';
-
+import "./style.css"
 /**
  * screen mask, use in `Dialog`, `ActionSheet`, `Popup`.
  *
@@ -28,9 +27,7 @@ class Mask extends React.Component {
         }, className);
 
         return (
-            <BaseComponent>
-                <div className={clz} {...others}></div>
-            </BaseComponent>
+            <div className={clz} {...others}></div>
         );
     }
 }
