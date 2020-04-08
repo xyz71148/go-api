@@ -3,7 +3,6 @@ package yh_server
 
 import (
 	"fmt"
-	"github.com/xyz71148/go-api/api/service/shadowsocks"
 	"github.com/xyz71148/go-api/api/utils"
 	"log"
 	"os"
@@ -36,6 +35,5 @@ func Run() {
 	}
 	server.Initialize()
 
-
-	server.Run(":"+utils.GetEnv("httpManagePort",shadowsocks.GetConfig("httpManagePort")))
+	server.Run(":"+utils.GetEnv("httpManagePort","8080"))
 }

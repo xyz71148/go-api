@@ -7,7 +7,6 @@
     "test": "tests"
   },
   "scripts": {
-    "ui": "cd ./ui/vpn && npm run build && rm -rf ../../assets/res/ui/static && cp -a build/* ../../assets/res/ui",
     "res": "npm run doc && go-bindata -pkg assets -o assets/res.go  -prefix \"res/\" assets/res/...",
     "doc:server": "swagger serve ./assets/res/ui/swagger/swagger.json",
     "doc:replace": "sed -i '' 's/127.0.0.1/0.0.0.0/g' ./assets/res/ui/swagger/swagger.json",
