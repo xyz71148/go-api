@@ -22,13 +22,12 @@ import (
 	"github.com/getlantern/pac"
 )
 
-
 var storageFolder string
 var cacheFolder string
 
 func GetConfig(key string) string {
-	val := utils.GetEnv(key,"")
-	if strings.Count(val,"") == 1 {
+	val := utils.GetEnv(key, "")
+	if strings.Count(val, "") == 1 {
 		switch key {
 		case "Logo":
 			return "logo.png"
@@ -39,7 +38,7 @@ func GetConfig(key string) string {
 		case "httpProxyPort":
 			return "1272"
 		case "httpManagePort":
-			return "8080"
+			return "8070"
 		case "HttpProxy":
 			return "0.0.0.0:1272"
 		case "SocksProxy":
@@ -49,9 +48,8 @@ func GetConfig(key string) string {
 
 		}
 		return ""
-		
-		
-	}else{
+
+	} else {
 		return val
 	}
 }
@@ -226,7 +224,7 @@ func (c *Config) UpdateTunnel(oldT, newT string) error {
 	}
 	return errors.New("该Shadowsocks账号已存在")
 }
-func (c *Config) CleanTunnel( ) error {
+func (c *Config) CleanTunnel() error {
 	c.SSTunnels = make([]string, 0)
 	return SaveConfig(c)
 }
@@ -291,8 +289,6 @@ func SaveConfig(config *Config) error {
 	return nil
 }
 
-
-
 func GetStorageDir() string {
 	return fmt.Sprintf("%s/%s", storageFolder, GetConfig("AppName"))
 }
@@ -315,9 +311,13 @@ func isPathExist(path string) bool {
 var pacUrl string
 
 func SetPac() error {
+	err1 := os.MkdirAll(GetStorageDir(), os.ModePerm)
+	if err1 != nil {
+		fmt.Println(err1)
+	}
 	err := pac.EnsureHelperToolPresent(
 		GetStorageFile("pac-set"),
-		"铜蛇请求授权，以更改系统代理设置",
+		"请求授权，以更改系统代理设置",
 		GetStorageFile(GetConfig("Logo")),
 	)
 	if err != nil {

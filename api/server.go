@@ -3,7 +3,6 @@ package api
 import (
 	"fmt"
 	"github.com/xyz71148/go-api/api/controllers"
-	revers_proxy "github.com/xyz71148/go-api/api/service/revers-proxy"
 	"github.com/xyz71148/go-api/api/service/shadowsocks"
 	"github.com/xyz71148/go-api/api/utils"
 	"log"
@@ -46,8 +45,6 @@ func RunReversProxy() {
 
 	//seed.Load(server.DB)
 
-	go server.Run(":"+utils.GetEnv("httpManagePort",shadowsocks.GetConfig("httpManagePort")))
-
-	revers_proxy.Run("0.0.0.0","8088","http://vpn.jie8.cc:8080")
+	server.Run(":"+utils.GetEnv("httpManagePort",shadowsocks.GetConfig("httpManagePort")))
 
 }

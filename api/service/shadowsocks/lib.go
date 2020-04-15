@@ -102,7 +102,7 @@ func traceTray() {
 
 	mConfig := systray.AddMenuItem("账号与设置", "账号与设置")
 	mToggleGlobal = systray.AddMenuItem("开启全局模式", "全局模式开关")
-	mQuit := systray.AddMenuItem("退出", "退出铜蛇")
+	mQuit := systray.AddMenuItem("退出", "退出")
 
 	murl := fmt.Sprintf("http://%s", GetManagementAddr())
 	open.Run(murl)
