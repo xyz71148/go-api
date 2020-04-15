@@ -10,17 +10,15 @@ import rootReducer from "./store/rootReducer";
 import thunk from "redux-thunk";
 import {Provider} from "react-redux";
 
-const instance = axios.create();
 axios.defaults.timeout = 15000;
 axios.interceptors.request.use(request => {
     const {url} = request;
     const base_api_url = "/api";
-    if ( url && url.indexOf("shadowsocks") > 0) {
+    if ( url && (url.indexOf("shadowsocks") > 0 || url.indexOf("http") === 0)) {
          request["url"] = `${url}`
     }else{
         request["url"] = `${base_api_url}${url}`
     }
-
     return request
 }, error => {
     console.error("request",error);
@@ -39,7 +37,7 @@ axios.interceptors.response.use((response) => {
         //window.location.reload()
         return Promise.reject(error);
     }else{
-        window.weui.topTips(error.message)
+        //window.weui.topTips(error.message)
         return Promise.reject(error);
     }
 });

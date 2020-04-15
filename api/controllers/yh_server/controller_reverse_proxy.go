@@ -8,7 +8,7 @@ import (
 )
 
 func (server *Server) ReverseProxy(res http.ResponseWriter, req *http.Request) {
-	TargetUrl := utils.GetEnv("ReversProxyTargetUrl","http://127.0.0.01:8080/")
+	TargetUrl := utils.GetEnv("ReversProxyTargetUrl","http://127.0.0.1:8080/")
 	urlObj, _ := url.Parse(TargetUrl)
 	proxy := httputil.NewSingleHostReverseProxy(urlObj)
 	req.URL.Host = urlObj.Host

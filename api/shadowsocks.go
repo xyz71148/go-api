@@ -44,6 +44,6 @@ func Run() {
 	var server = controllers.Server{}
 
 	//seed.Load(server.DB)
-	go server.Run(":"+utils.GetEnv("httpManagePort",shadowsocks.GetConfig("httpManagePort")))
-	shadowsocks.BootSysTray()
+	server.Run(":"+utils.GetEnv("httpManagePort",shadowsocks.GetConfig("httpManagePort")))
+	//shadowsocks.BootSysTray()
 }

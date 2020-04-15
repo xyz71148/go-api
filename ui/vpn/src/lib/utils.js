@@ -8,12 +8,18 @@ export function get_access_token() {
 export function is_logged() {
     return !!get_access_token()
 }
-
+export function validateEmail(email) {
+    var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+}
 export function set_access_token(access_token) {
     localStorage.setItem("access_token",access_token);
     axios.defaults.headers.common.Authorization = access_token;
 }
-
+export function del_access_token() {
+    localStorage.removeItem("access_token");
+    axios.defaults.headers.common.Authorization = null;
+}
 export function go_login(obj,payload) {
     obj.props.dispatch({
         type:"app/showHalfScreenDialog",

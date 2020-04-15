@@ -2,16 +2,13 @@ import React, {Component} from 'react';
 import axios from 'axios'
 import "./Login.css"
 import {connect} from "react-redux";
-import {set_access_token} from "../../lib/utils"
+import {validateEmail,set_access_token} from "../../lib/utils"
 
-function validateEmail(email) {
-    var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(email);
-}
+
 
 class Login extends Component {
     state = {
-        email: 'xyz71148@gmail.com',
+        email: '',
         code:"",
         sendTxt:"获取验证码",
         sendBtnDisabled:false,
@@ -28,8 +25,8 @@ class Login extends Component {
         }).then(({data}) => {
             const {code, msg} = data;
             loading.hide()
-            window.weui.topTips(msg)
             if (code === 200) {
+                window.weui.toast(msg)
                 this.setState({
                     sendBtnDisabled:true,
                     sendTxt:"60"
@@ -50,6 +47,8 @@ class Login extends Component {
                     }
 
                 },1000)
+            }else{
+                window.weui.topTips(msg)
             }
         }).catch(()=>loading.hide())
 
@@ -79,6 +78,9 @@ class Login extends Component {
                     payload:{
                         access_token
                     }
+                })
+                this.props.dispatch({
+                    type:"app/hideHalfScreenDialog"
                 })
             }else{
 
@@ -119,9 +121,9 @@ class Login extends Component {
                                                placeholder="请输入Email" value={this.state.email} />
                                     </div>
                                     <div className="weui-cell__ft">
-                                        <a className="weui-btn_reset weui-btn_icon">
+                                        <button className="weui-btn_reset weui-btn_icon">
                                             <i id="showIOSDialog1" className="weui-icon-info-circle" />
-                                        </a>
+                                        </button>
                                     </div>
                                 </div>
                                 <div className="weui-cell weui-cell_active weui-cell_vcode">
@@ -144,7 +146,7 @@ class Login extends Component {
                             <input id="weuiAgreeCheckbox" type="checkbox" onChange={this.onChangeAgree.bind(this)} className="weui-agree__checkbox" />
                                 <span className="weui-agree__text">
                                     阅读并同意
-                                    <a href="#">《相关条款》</a>
+                                    <button href="#">《相关条款》</button>
                                 </span>
                         </label>
                     </div>

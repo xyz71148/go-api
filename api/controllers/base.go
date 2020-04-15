@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"github.com/gorilla/handlers"
 	"github.com/xyz71148/go-api/api/models"
-	"github.com/xyz71148/go-api/api/service/shadowsocks"
 	"log"
 	"net/http"
 
@@ -66,7 +65,7 @@ func (server *Server) Initialize(Dbdriver, DbUser, DbPassword, DbPort, DbHost, D
 
 func (server *Server) Run(addr string) {
 	fmt.Println("Listening to port ",addr)
-	go shadowsocks.BroadcastClients()
+	//go shadowsocks.BroadcastClients()
 	log.Fatal(http.ListenAndServe(addr, handlers.CORS(
 		handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"}),
 		handlers.AllowedMethods([]string{"GET", "POST", "PUT", "HEAD", "DELETE", "OPTIONS"}),

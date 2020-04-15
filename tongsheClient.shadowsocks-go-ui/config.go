@@ -1,11 +1,9 @@
-package shadowsocks
+package main
 
 import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/xyz71148/go-api/api/utils"
-	"github.com/xyz71148/go-api/assets"
 	"io/ioutil"
 	"log"
 	"os"
@@ -22,42 +20,25 @@ import (
 	"github.com/getlantern/pac"
 )
 
+const debug = true
+
+const (
+	Logo           = "logo.png"
+	AppName        = "tongshe"
+	ssPort         = 1271
+	httpProxyPort  = 1272
+	httpManagePort = 1270
+	HttpProxy      = "127.0.0.1:1272"
+	SocksProxy     = "127.0.0.1:1271"
+)
+
 var storageFolder string
 var cacheFolder string
 
-func GetConfig(key string) string {
-	val := utils.GetEnv(key, "")
-	if strings.Count(val, "") == 1 {
-		switch key {
-		case "Logo":
-			return "logo.png"
-		case "AppName":
-			return "youhu"
-		case "ssPort":
-			return "1271"
-		case "httpProxyPort":
-			return "1272"
-		case "httpManagePort":
-			return "8070"
-		case "HttpProxy":
-			return "0.0.0.0:1272"
-		case "SocksProxy":
-			return "127.0.0.1:1271"
-		case "debug":
-			return "false"
-
-		}
-		return ""
-
-	} else {
-		return val
-	}
-}
 func init() {
 	if runtime.GOOS == "darwin" {
 		storageFolder = os.Getenv("HOME") + "/Library/Application Support"
 		cacheFolder = os.Getenv("HOME") + "/Library/Caches"
-
 	} else if runtime.GOOS == "windows" {
 		storageFolder = os.Getenv("APPDATA")
 		cacheFolder = os.Getenv("LOCALAPPDATA")
@@ -77,8 +58,8 @@ func init() {
 	if !isPathExist(s) {
 		os.Mkdir(s, 0755)
 	}
-	if !isPathExist(GetStorageFile(GetConfig("Logo"))) {
-		err := ioutil.WriteFile(GetStorageFile(GetConfig("Logo")), assets.GetRes(GetConfig("Logo")), 0644)
+	if !isPathExist(GetStorageFile(Logo)) {
+		err := ioutil.WriteFile(GetStorageFile(Logo), GetRes(Logo), 0644)
 		if err != nil {
 			panic(err)
 		}
@@ -191,6 +172,11 @@ func (c *Config) GetSSTunnels() []*SSTunnel {
 	return tunnels
 }
 
+func (c *Config) CleanTunnel() error {
+	c.SSTunnels = make([]string, 0)
+	return SaveConfig(c)
+}
+
 func (c *Config) AddTunnel(t string) error {
 	_, err := NewSSTunnel(t)
 	if err != nil {
@@ -224,10 +210,7 @@ func (c *Config) UpdateTunnel(oldT, newT string) error {
 	}
 	return errors.New("该Shadowsocks账号已存在")
 }
-func (c *Config) CleanTunnel() error {
-	c.SSTunnels = make([]string, 0)
-	return SaveConfig(c)
-}
+
 func (c *Config) DeleteTunnel(t string) error {
 	for i, sv := range c.SSTunnels {
 		if sv == t {
@@ -268,7 +251,6 @@ func LoadConfig() (*Config, error) {
 
 func SaveConfig(config *Config) error {
 	f := fmt.Sprintf("%s/%s", GetStorageDir(), "user.config")
-
 	b, err := json.Marshal(&config)
 	if err != nil {
 		log.Printf("enjson config err:%v", err)
@@ -289,8 +271,16 @@ func SaveConfig(config *Config) error {
 	return nil
 }
 
+func GetRes(filename string) []byte {
+	bt, err := Asset(filename)
+	if err != nil {
+		return []byte{}
+	}
+	return bt
+}
+
 func GetStorageDir() string {
-	return fmt.Sprintf("%s/%s", storageFolder, GetConfig("AppName"))
+	return fmt.Sprintf("%s/%s", storageFolder, AppName)
 }
 
 func GetStorageFile(f string) string {
@@ -311,14 +301,10 @@ func isPathExist(path string) bool {
 var pacUrl string
 
 func SetPac() error {
-	err1 := os.MkdirAll(GetStorageDir(), os.ModePerm)
-	if err1 != nil {
-		fmt.Println(err1)
-	}
 	err := pac.EnsureHelperToolPresent(
 		GetStorageFile("pac-set"),
-		"请求授权，以更改系统代理设置",
-		GetStorageFile(GetConfig("Logo")),
+		"铜蛇请求授权，以更改系统代理设置",
+		GetStorageFile(Logo),
 	)
 	if err != nil {
 		log.Printf("Could not set pac with err: %v", err)
@@ -339,14 +325,14 @@ func UnsetPac() {
 
 func GetSocksProxy() string {
 	//TODO add sharing feature
-	return fmt.Sprintf("%s:%s;", "127.0.0.1", GetConfig("ssPort"))
+	return fmt.Sprintf("%s:%d;", "127.0.0.1", ssPort)
 }
 
 func GetHttpProxy() string {
 	//TODO add sharing feature
-	return fmt.Sprintf("%s:%s;", "127.0.0.1", GetConfig("httpProxyPort"))
+	return fmt.Sprintf("%s:%d;", "127.0.0.1", httpProxyPort)
 }
 
 func GetManagementAddr() string {
-	return fmt.Sprintf("127.0.0.1:%s", GetConfig("httpManagePort"))
+	return fmt.Sprintf("127.0.0.1:%d", httpManagePort)
 }

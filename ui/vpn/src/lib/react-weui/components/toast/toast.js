@@ -34,7 +34,7 @@ class Toast extends Component {
     };
 
     render() {
-        const {className, icon,loading, show, children, iconSize,text, ...others} = this.props;
+        const {className,loading, show,text} = this.props;
         const cls = classNames('weui-icon_toast', {
             [className]: className,
             'weui-icon-success-no-circle': !loading,

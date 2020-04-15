@@ -31,6 +31,7 @@ require (
 	github.com/iris-contrib/go.uuid v2.0.0+incompatible // indirect
 	github.com/jinzhu/gorm v1.9.10
 	github.com/joho/godotenv v1.3.0
+	github.com/jteeuwen/go-bindata v3.0.7+incompatible // indirect
 	github.com/kataras/golog v0.0.10 // indirect
 	github.com/kataras/iris v11.1.1+incompatible
 	github.com/klauspost/compress v1.10.3 // indirect
