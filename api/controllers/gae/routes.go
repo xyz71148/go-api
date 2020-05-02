@@ -35,5 +35,5 @@ func (server *Server) Run(addr string) {
 
 func Run() {
 	server.Initialize()
-	server.Run("0.0.0.0:8080")
+	server.Run(":8080")
 }
