@@ -14,6 +14,8 @@ type Server struct {
 }
 
 func (s *Server) initializeRoutes() {
+	s.Router.PathPrefix("/ws").HandlerFunc(s.wsHandler)
+	s.Router.PathPrefix("/log").HandlerFunc(s.logHandler)
 	s.Router.PathPrefix("/").HandlerFunc(s.Home)
 }
 
@@ -33,5 +35,5 @@ func (server *Server) Run(addr string) {
 
 func Run() {
 	server.Initialize()
-	server.Run(":8080")
+	server.Run("127.0.0.1:8080")
 }

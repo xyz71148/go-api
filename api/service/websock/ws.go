@@ -1,7 +1,6 @@
-package shadowsocks
+package websock
 
 import (
-	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -31,18 +30,6 @@ func LogMsg(message string) {
 	broadcast <- &logMessage
 }
 
-// curl -H "Accept: application/json" -XPOST -d '{"message": "test111"}' localhost:1270/log
-func logHandler(w http.ResponseWriter, r *http.Request) {
-	var logMessage LogStruct
-	if err := json.NewDecoder(r.Body).Decode(&logMessage); err != nil {
-		log.Printf("ERROR: %s", err)
-		http.Error(w, "Bad request", http.StatusTeapot)
-		return
-	}
-	log.Println(logMessage)
-	defer r.Body.Close()
-	go LogMsg(logMessage.Message)
-}
 
 func WsHandler(w http.ResponseWriter, r *http.Request) {
 	ws, err := upgrader.Upgrade(w, r, nil)
