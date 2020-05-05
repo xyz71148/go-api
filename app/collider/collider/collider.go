@@ -47,8 +47,8 @@ func (c *Collider) Run(host string,p int, useTls bool) {
 
 	var e error
 
-	addr := "http://" +host + ":" + strconv.Itoa(p)
-	log.Println("Run at : " + addr)
+	addr := host + ":" + strconv.Itoa(p)
+	log.Println("Run at : http://" + addr)
 	if useTls {
 		config := &tls.Config {
 			// Only allow ciphers that support forward secrecy for iOS9 compatibility:

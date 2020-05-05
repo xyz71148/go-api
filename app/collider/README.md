@@ -124,7 +124,8 @@ The log is rotated daily and removed after 10 days. Archived logs are in `/colli
     
     rm -rf ~/collider
     curl -O https://raw.githubusercontent.com/xyz71148/go-api/master/app/collider/release/collider
-    nohup sudo ~/collider -port=8090 -tls=false -room-server=https://ws.jie8.cc &
+    sudo chmod +x ~/collider
+    nohup sudo ~/collider -port=8090 -host=127.0.0.1 -tls=false -room-server=https://ws.jie8.cc &
     
 ## cert 
     
