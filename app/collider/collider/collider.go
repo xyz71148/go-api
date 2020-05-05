@@ -40,14 +40,15 @@ func NewCollider(rs string) *Collider {
 }
 
 // Run starts the collider server and blocks the thread until the program exits.
-func (c *Collider) Run(p int, useTls bool) {
+func (c *Collider) Run(host string,p int, useTls bool) {
 	http.Handle("/ws", websocket.Handler(c.wsHandler))
 	http.HandleFunc("/status", c.httpStatusHandler)
 	http.HandleFunc("/", c.httpHandler)
 
 	var e error
 
-	pstr := ":" + strconv.Itoa(p)
+	addr := "http://" +host + ":" + strconv.Itoa(p)
+	log.Println("Run at : " + addr)
 	if useTls {
 		config := &tls.Config {
 			// Only allow ciphers that support forward secrecy for iOS9 compatibility:
@@ -63,11 +64,11 @@ func (c *Collider) Run(p int, useTls bool) {
 			},
 			PreferServerCipherSuites: true,
 		}
-		server := &http.Server{ Addr: pstr, Handler: nil, TLSConfig: config }
+		server := &http.Server{ Addr: addr, Handler: nil, TLSConfig: config }
 
 		e = server.ListenAndServeTLS("/cert/cert.pem", "/cert/key.pem")
 	} else {
-		e = http.ListenAndServe(pstr, nil)
+		e = http.ListenAndServe(addr, nil)
 	}
 
 	if e != nil {

@@ -111,15 +111,22 @@ To enable rotation of the `/collider/collider.log` file add the following conten
 
 The log is rotated daily and removed after 10 days. Archived logs are in `/collider`.
 
+
+##build
     
     git clone git@github.com:xyz71148/go-api.git
-    cd go-api/app/collider/collidermain
-    docker run -v $PWD:/build -it golang:alpine sh
-    cd /build 
-    
-    CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -ldflags '-extldflags' -o collider .
+    sudo docker run -v $PWD/go-api:/go/src/github.com/xyz71148/go-api -it golang:alpine sh
 
+    cd /go/src/github.com/xyz71148/go-api/app/collider/collidermain
+    apk add git
+    CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -ldflags '-extldflags' -o ../bin/collider .
     
+    
+    rm -rf ~/collider
+    curl -O https://raw.githubusercontent.com/xyz71148/go-api/master/app/collider/bin/collider
+    nohup sudo ~/collider -port=8090 -tls=false -room-server=https://ws.jie8.cc &
+    
+## cert 
     
     mkdir -p ~/data/projects/wwwroot
     echo "bar" > ~/data/projects/wwwroot/bar.txt
@@ -142,6 +149,4 @@ The log is rotated daily and removed after 10 days. Archived logs are in `/colli
     sudo cp cert.pem key.pem /cert
     
     cd ~/
-    curl -O https://raw.githubusercontent.com/xyz71148/apprtc/master/src/collider/bin/collider
     
-    nohup sudo ~/collider -port=8090 -tls=false -room-server=https://ws.jie8.cc &
