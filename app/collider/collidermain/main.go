@@ -12,6 +12,7 @@ import (
 )
 
 var tls = flag.Bool("tls", true, "whether TLS is used")
+var host = flag.String("host", "127.0.0.1", "The TCP host that the server listens on")
 var port = flag.Int("port", 443, "The TCP port that the server listens on")
 var roomSrv = flag.String("room-server", "https://appr.tc", "The origin of the room server")
 

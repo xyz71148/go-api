@@ -12,14 +12,11 @@ A websocket-based signaling server in Go.
 
 3. Make sure to set the $GOPATH according to the Go instructions in step 1
 
-  E.g. `export GOPATH=$HOME/goWorkspace/`
-  `mkdir $GOPATH/src`
+  E.g. `mkdir -p $GOPATH/src/github.com/xyz71148/go-api/app/collider`
 
-4. Link the collider directories into `$GOPATH/src`
-
-        ln -s `pwd`/src/collider/collider $GOPATH/src
-        ln -s `pwd`/src/collider/collidermain $GOPATH/src
-        ln -s `pwd`/src/collider/collidertest $GOPATH/src
+4. Link the collider directories 
+        
+        ln -s `pwd`/src/collider $GOPATH/src/github.com/xyz71148/go-api/app/collider
 
 5. Install dependencies
 
@@ -113,3 +110,38 @@ To enable rotation of the `/collider/collider.log` file add the following conten
 ```
 
 The log is rotated daily and removed after 10 days. Archived logs are in `/collider`.
+
+    
+    git clone git@github.com:xyz71148/go-api.git
+    cd go-api/app/collider/collidermain
+    docker run -v $PWD:/build -it golang:alpine sh
+    cd /build 
+    
+    CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -ldflags '-extldflags' -o collider .
+
+    
+    
+    mkdir -p ~/data/projects/wwwroot
+    echo "bar" > ~/data/projects/wwwroot/bar.txt
+    cd ~/data/projects/wwwroot
+    python -m SimpleHTTPServer 8080
+    
+    curl https://get.acme.sh | sh
+    
+    domain=ws.jie8.cc:8080
+    
+    .acme.sh/acme.sh --issue \
+        -d $domain \
+        -w ~/data/projects/wwwroot --force
+    
+    cd ~/.acme.sh/$domain/
+    
+    cat $domain.key $domain.cer ca.cer > key.pem
+    cp fullchain.cer cert.pem
+    mkdir /cert
+    sudo cp cert.pem key.pem /cert
+    
+    cd ~/
+    curl -O https://raw.githubusercontent.com/xyz71148/apprtc/master/src/collider/bin/collider
+    
+    nohup sudo ~/collider -port=8090 -tls=false -room-server=https://ws.jie8.cc &
