@@ -114,21 +114,9 @@ The log is rotated daily and removed after 10 days. Archived logs are in `/colli
 
 ##build
     
-    git clone git@github.com:xyz71148/go-api.git
-    sudo docker run -v ~/go-api:/go/src/github.com/xyz71148/go-api -it golang:alpine sh
-
-    cd /go/src/github.com/xyz71148/go-api/app/collider/collidermain
-    apk add git
-    CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -ldflags '-extldflags' -o ../release/collider .
-    exit
-    rm -rf ~/collider
-
-    cp ~/go-api/app/collider/release/collider ~/
-    
-    curl -O https://raw.githubusercontent.com/xyz71148/go-api/master/app/collider/release/collider
-    sudo chmod +x ~/collider
-    nohup sudo ~/collider -port=8090 -host=127.0.0.1 -tls=false -room-server=https://ws.jie8.cc &
-    
+    git_repo=git@github.com:xyz71148/go-api.git
+    ssh dev "curl https://jie8.cc/f/p-build | bash -s $git_repo /app/collider collider-v1 $DOCKER_USR $DOCKER_PWD"   
+       
 ## cert 
     
     mkdir -p ~/data/projects/wwwroot
