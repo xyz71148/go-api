@@ -15,6 +15,6 @@ RUN apk add git && \
 ADD start.sh /bin/start.sh
 RUN chmod +x /bin/start.sh /bin/collider
 
-CMD ["/bin/start.sh"]
+CMD ["sh","/bin/start.sh"]
 
 
