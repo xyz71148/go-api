@@ -116,7 +116,9 @@ The log is rotated daily and removed after 10 days. Archived logs are in `/colli
     
     git_repo=git@github.com:xyz71148/go-api.git
     ssh dev "curl https://jie8.cc/f/p-build | bash -s $git_repo /app/collider collider-v1 $DOCKER_USR $DOCKER_PWD"   
-       
+    docker run -it sanfun/public:collider-v1 bash
+    
+    
 ## cert 
     
     mkdir -p ~/data/projects/wwwroot
