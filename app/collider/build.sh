@@ -20,6 +20,5 @@ DockerBuild () {
 PRO_ROOT=/tmp/repo
 rm -rf $PRO_ROOT
 git clone $REPO_GIT $PRO_ROOT
-cd $PRO_ROOT$ROOT_BUILD
 DockerBuild $PRO_ROOT$ROOT_BUILD $TAG_NAME
-rm -rf $PRO_ROOT$ROOT_BUILD/build
+rm -rf $PRO_ROOT
