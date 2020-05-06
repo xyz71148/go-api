@@ -14,5 +14,9 @@ DockerBuild () {
 
 if [[ $GIT_LAST_CHANGE_LOG == *app/collider/Dockerfile* ]]
 then
-  DockerBuild /root/workspace/app/collider collider
+  ROOT_DIR=/root/workspace/app/collider
+  rm -rf $ROOT_DIR/build
+  cp -a ./ $ROOT_DIR/build
+  DockerBuild $ROOT_DIR collider
+  rm -rf $ROOT_DIR/build
 fi
