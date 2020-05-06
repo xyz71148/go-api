@@ -6,8 +6,8 @@ ENV TLS false
 ENV ROOM_SERVER https://jie8.cc
 
 RUN apk add git && \
-    mkdir -p /go/src/github.com/xyz71148 && \
-    go get github.com/xyz71148/go-api/app/collider/collider && \
+    mkdir -p /go/src/github.com/xyz71148 && cd /go/src/github.com/xyz71148 && \
+    git clone github.com/xyz71148/go-api && \
     cd /go/src/github.com/xyz71148/go-api/app/collider/collidermain && \
     CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -ldflags '-extldflags' -o /bin/collider . && \
     rm -rf /go/
