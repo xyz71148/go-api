@@ -16,5 +16,3 @@ ADD start.sh /bin/start.sh
 RUN chmod +x /bin/start.sh /bin/collider
 
 CMD ["sh","/bin/start.sh"]
-
-
