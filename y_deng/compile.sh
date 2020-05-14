@@ -25,7 +25,7 @@ echo "get go-bindata..."
 echo "get go-bindata done..."
 
 echo "bindata:translate all res to bindata.go ..."
-#go-bindata -prefix "res/" res/...
+go-bindata -prefix "res/" res/...
 echo "bindata:translate done ..."
 
 echo "download vendor..."

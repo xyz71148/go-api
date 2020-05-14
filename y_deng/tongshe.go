@@ -201,7 +201,7 @@ func StartWeb() {
 	rtr.HandleFunc("/set", set)
 	rtr.HandleFunc("/settings", settings)
 	rtr.HandleFunc("/shadowsocks", shadowsocks)
-	//rtr.PathPrefix("/").HandlerFunc(static)
+	rtr.PathPrefix("/").HandlerFunc(static)
 	http.Handle("/", rtr)
 
 	srv := &http.Server{
@@ -225,7 +225,7 @@ func onTrayReady() {
 
 	systray.SetIcon(GetRes("icon22x22.ico"))
 	systray.SetTitle("")
-	systray.SetTooltip("铜蛇")
+	systray.SetTooltip("邮灯")
 
 	go StartSS()
 	go StartHttpProxy()
@@ -238,6 +238,7 @@ func onTrayReady() {
 }
 
 var mToggleGlobal *systray.MenuItem
+var mClean *systray.MenuItem
 
 func refreshGlobalToggle(global bool) {
 	if global {
@@ -250,11 +251,11 @@ func refreshGlobalToggle(global bool) {
 func traceTray() {
 
 	mConfig := systray.AddMenuItem("账号与设置", "账号与设置")
+	mClean := systray.AddMenuItem("清空线路", "全局模式开关")
 	mToggleGlobal = systray.AddMenuItem("开启全局模式", "全局模式开关")
-	mQuit := systray.AddMenuItem("退出", "退出铜蛇")
+	mQuit := systray.AddMenuItem("退出", "退出")
 
-	//murl := fmt.Sprintf("http://%s", GetManagementAddr())
-	murl := "https://mock.jie8.cc/xyz71148-i-front/www/"
+	murl := fmt.Sprintf("http://%s", GetManagementAddr())
 	open.Run(murl)
 
 	config, _ := LoadConfig()
@@ -280,12 +281,16 @@ func traceTray() {
 			config, _ := LoadConfig()
 			global := !(config.Get("is_global") == "on")
 			if global {
-				effectSetting("is_global", "on")
+				_ = effectSetting("is_global", "on")
 			} else {
-				effectSetting("is_global", "off")
+				_ = effectSetting("is_global", "off")
 			}
 			refreshGlobalToggle(global)
 			log.Printf("global mode is %v ", global)
+		case <-mClean.ClickedCh:
+			config, _ := LoadConfig()
+			_ = config.CleanTunnel()
+			log.Printf("GetSSTunnels %s ", config.GetSSTunnels())
 		}
 	}
 }
