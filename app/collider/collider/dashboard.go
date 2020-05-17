@@ -37,6 +37,10 @@ type statusReport struct {
 	HttpErrs  int     `json:"httperrors"`
 }
 
+type rooms struct {
+	Rooms     map[string]*room     `json:"rooms"`
+}
+
 func newDashboard() *dashboard {
 	return &dashboard{startTime: time.Now()}
 }
@@ -52,6 +56,12 @@ func (db *dashboard) getReport(rs *roomTable) statusReport {
 		TotalWs:   db.totalWs,
 		WsErrs:    db.wsErrs,
 		HttpErrs:  db.httpErrs,
+	}
+}
+
+func (db *dashboard) getRooms(rs *roomTable) rooms {
+	return rooms{
+		Rooms:     rs.getRooms(),
 	}
 }
 

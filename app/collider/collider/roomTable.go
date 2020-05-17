@@ -119,6 +119,11 @@ func (rt *roomTable) removeIfUnregistered(rid string, c *client) {
 	}
 }
 
+func (rt *roomTable) getRooms() map[string]*room {
+	return rt.rooms
+}
+
+
 func (rt *roomTable) wsCount() int {
 	rt.lock.Lock()
 	defer rt.lock.Unlock()
