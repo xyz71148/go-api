@@ -8,10 +8,9 @@ package collider
 
 import (
 	"crypto/tls"
-	"golang.org/x/net/websocket"
 	"encoding/json"
 	"errors"
-	"html"
+	"golang.org/x/net/websocket"
 	"io"
 	"io/ioutil"
 	"log"
@@ -102,32 +101,41 @@ func (c *Collider) httpHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Access-Control-Allow-Methods", "POST, DELETE")
 
 	p := strings.Split(r.URL.Path, "/")
-	if len(p) != 3 {
-		c.httpError("Invalid path: "+html.EscapeString(r.URL.Path), w)
-		return
-	}
-	rid, cid := p[1], p[2]
+	if len(p) == 3 {
+		rid, cid := p[1], p[2]
 
-	switch r.Method {
-	case "POST":
-		body, err := ioutil.ReadAll(r.Body)
-		if err != nil {
-			c.httpError("Failed to read request body: "+err.Error(), w)
+		switch r.Method {
+		case "POST":
+			body, err := ioutil.ReadAll(r.Body)
+			if err != nil {
+				c.httpError("Failed to read request body: "+err.Error(), w)
+				return
+			}
+			m := string(body)
+			if m == "" {
+				c.httpError("Empty request body", w)
+				return
+			}
+			if err := c.roomTable.send(rid, cid, m); err != nil {
+				c.httpError("Failed to send the message: "+err.Error(), w)
+				return
+			}
+		case "DELETE":
+			c.roomTable.remove(rid, cid)
+		default:
 			return
 		}
-		m := string(body)
-		if m == "" {
-			c.httpError("Empty request body", w)
-			return
+	}else{
+		if len(p) == 2 && p[1]== "rooms" {
+			rp := c.dash.getRooms(c.roomTable)
+			enc := json.NewEncoder(w)
+			if err := enc.Encode(rp); err != nil {
+				err = errors.New("Failed to encode to JSON: err=" + err.Error())
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+				c.dash.onHttpErr(err)
+			}
 		}
-		if err := c.roomTable.send(rid, cid, m); err != nil {
-			c.httpError("Failed to send the message: "+err.Error(), w)
-			return
-		}
-	case "DELETE":
-		c.roomTable.remove(rid, cid)
-	default:
-		return
+		return;
 	}
 
 	io.WriteString(w, "OK\n")
