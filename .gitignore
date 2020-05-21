@@ -6,7 +6,7 @@
 *.idea
 *.idea/.*
 .DS_Store
-
+/y_deng/.ossutil_checkpoint
 bin/
 
 .idea/

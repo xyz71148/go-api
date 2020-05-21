@@ -6,7 +6,6 @@
 package collider
 
 import (
-
 	"github.com/xyz71148/go-api/app/collider/collidertest"
 	"testing"
 )

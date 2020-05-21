@@ -6,13 +6,12 @@
 package collider
 
 import (
-	"golang.org/x/net/websocket"
 	"encoding/json"
 	"flag"
 	"fmt"
+	"golang.org/x/net/websocket"
 	"net"
 	"net/http"
-	"strconv"
 	"strings"
 	"sync"
 	"testing"
@@ -24,17 +23,18 @@ var once sync.Once
 var registerTimeout = time.Second
 var cl *Collider
 
-var port = flag.Int("port", 8089, "The port that Collider listens to")
+var port = flag.Int("port",8188, "The port that Collider listens to")
 
 func startCollider() {
-	serverAddr = "localhost:" + strconv.Itoa(*port)
+
+	serverAddr = fmt.Sprintf("127.0.0.1:%d",*port)
 
 	cl = &Collider{
 		roomTable: newRoomTable(registerTimeout, "http://"+serverAddr),
 		dash:      newDashboard(),
 	}
 
-	go cl.Run(*port, false)
+	go cl.Run("127.0.0.1", *port,false)
 	fmt.Println("Test WebSocket server listening on ", serverAddr)
 }
 
