@@ -5607,7 +5607,7 @@ a {
 }
 a:hover,
 a:focus {
-  color: #3395ff;
+  /*color: #3395ff;*/
   text-decoration: none;
 }
 a:focus {
@@ -6600,32 +6600,4 @@ hr.dotted {
 .device-silhouette {
   height: 100%;
   width: 100%;
-}
-@media only screen and (min-width: 480px) {
-  #root {
-    background-repeat: repeat-x;
-    background-image: -webkit-linear-gradient(135deg, #5389ad, #4c4f99);
-    background-image: -o-linear-gradient(135deg, #5389ad, #4c4f99);
-    background-image: linear-gradient(135deg, #5389ad, #4c4f99);
-    background-color: #717071;
-  }
-  .app-wrapper {
-    width: 376px;
-    height: 668px;
-    background: none;
-    left: 50%;
-    margin-left: -188px;
-    margin-top: -334px;
-    overflow: visible;
-    position: absolute;
-    top: 50%;
-  }
-  .device-silhouette {
-    width: 396px;
-    height: 720px;
-    background-color: rgba(0, 0, 0, 0.2);
-    border-radius: 20px;
-    margin: -32px -10px;
-    padding: 50px 10px;
-  }
 }

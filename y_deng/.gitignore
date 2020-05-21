@@ -3,7 +3,7 @@
 
 src/
 bin/
-
+.ossutil_checkpoint
 
 ###################### golang 
 # Compiled Object files, Static and Dynamic libs (Shared Objects)

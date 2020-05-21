@@ -51,10 +51,10 @@ echo "compile for windows-386..."
 
 echo "#########################################################"
 echo "compile for darwin-amd64..."
-package=y-deng.darwin.amd64.v1.0
+package=y-deng.darwin.amd64.v1.1
 GOOS=darwin GOARCH=amd64  go build -o ./bin/$package -v .
 
-ossutil -e oss-cn-shanghai.aliyuncs.com -i $OSS_ID -k $OSS_KEY cp ./bin/$package oss://pt-pub/release/y-deng/y-deng.darwin.amd64.v1.0
+ossutil -e oss-cn-shanghai.aliyuncs.com -i $OSS_ID -k $OSS_KEY cp ./bin/$package oss://pt-pub/release/y-deng/$$package
 
 echo https://pt-pub.oss-cn-shanghai.aliyuncs.com/release/y-deng/$package
 echo "compile done"

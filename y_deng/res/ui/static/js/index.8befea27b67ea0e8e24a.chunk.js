@@ -1,0 +1,2 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[2],{165:function(e,n,o){e.exports=o(166)},166:function(e,n,o){"use strict";o.r(n);var t=o(1),d=o.n(t),i=o(23),r=o.n(i),c=function(){window.pages_history=[],r.a.render(d.a.createElement("div",null,"index"),document.getElementById("root"))};window.cordova?document.addEventListener("deviceready",c,!1):c()}},[[165,4,0]]]);
+//# sourceMappingURL=index.8befea27b67ea0e8e24a.chunk.js.map
