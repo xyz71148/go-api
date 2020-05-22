@@ -1,15 +1,17 @@
-// Package classification 云控
-//
-// 云控
-//
-//      Version: 1.0.1
-//      Host: 127.0.0.1:10081
-//
-// swagger:meta
 package main
 
-import "github.com/xyz71148/go-api/api/controllers/yh_server"
+import (
+	"flag"
+	"github.com/xyz71148/go-api/app/proxy/server"
+	"log"
+)
+
+var hostIp = flag.String("ip", "127.0.0.1", "The TCP host ip that the server listens on")
+var hostPort = flag.Int("port", 8080, "The TCP port that the server listens on")
+var proxyAddr = flag.String("proxy", "http://35.221.244.162", "the proxy addr that server proxy")
 
 func main() {
-	yh_server.Run()
+	flag.Parse()
+	log.Printf("Starting: port = %d, ip=%s, porxy: %s", *hostPort, *hostIp, *proxyAddr)
+	server.Run(*hostIp, *hostPort, *proxyAddr)
 }

@@ -1,15 +1,13 @@
-package yh_server
+package server
 
 import (
-	"github.com/xyz71148/go-api/api/utils"
 	"net/http"
 	"net/http/httputil"
 	"net/url"
 )
 
 func (server *Server) ReverseProxy(res http.ResponseWriter, req *http.Request) {
-	TargetUrl := utils.GetEnv("ReversProxyTargetUrl","http://127.0.0.1:8080/")
-	urlObj, _ := url.Parse(TargetUrl)
+	urlObj, _ := url.Parse(proxyAddr)
 	proxy := httputil.NewSingleHostReverseProxy(urlObj)
 	req.URL.Host = urlObj.Host
 	req.URL.Scheme = urlObj.Scheme

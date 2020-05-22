@@ -1,14 +1,13 @@
-
-package yh_server
+package server
 
 import (
 	"fmt"
+	"github.com/joho/godotenv"
 	"github.com/xyz71148/go-api/api/utils"
 	"log"
 	"os"
 	"path/filepath"
-
-	"github.com/joho/godotenv"
+	"strconv"
 )
 
 var server = Server{}
@@ -19,9 +18,12 @@ func init() {
 	}
 }
 
-func Run() {
-	dir, _ := filepath.Abs(filepath.Dir(os.Args[0]))  //返回绝对路径  filepath.Dir(os.Args[0])去除最后一个元素的路径
+var proxyAddr string
 
+
+func Run(hostIp string,hostPort int,proxyAddr_ string) {
+	proxyAddr = proxyAddr_
+	dir, _ := filepath.Abs(filepath.Dir(os.Args[0]))
 	if utils.IsPathExist(fmt.Sprintf("%s/.env",dir)){
 		var err error
 		err = godotenv.Load()
@@ -34,6 +36,6 @@ func Run() {
 		log.Println(".env not exists")
 	}
 	server.Initialize()
-
-	server.Run(":"+utils.GetEnv("httpManagePort","8080"))
+	addr := hostIp + ":" + strconv.Itoa(hostPort)
+	server.Run(addr)
 }
