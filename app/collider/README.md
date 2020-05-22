@@ -120,7 +120,6 @@ The log is rotated daily and removed after 10 days. Archived logs are in `/colli
     sudo docker run -d -it -e PORT=8090 -e ROOM_SERVER=https://ws.jie8.cc \
         --net=host sanfun/public:collider-v2
     
-    
 ## cert 
     
     mkdir -p ~/data/projects/wwwroot
