@@ -1,6 +1,6 @@
 window.globalObject = {
     constant: {},
-    base_api_url: "https://jie8.cc/api"
+    base_api_url: "https://vpn.japp.cc/api"
 };
 
 if(!window.localStorage.getItem("base_api_url")){
