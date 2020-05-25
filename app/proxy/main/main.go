@@ -8,7 +8,7 @@ import (
 
 var hostIp = flag.String("ip", "127.0.0.1", "The TCP host ip that the server listens on")
 var hostPort = flag.Int("port", 8080, "The TCP port that the server listens on")
-var proxyAddr = flag.String("proxy", "http://35.221.244.162", "the proxy addr that server proxy")
+var proxyAddr = flag.String("proxy", "https://ptprod.df.r.appspot.com", "the proxy addr that server proxy")
 
 func main() {
 	flag.Parse()
